@@ -1,0 +1,122 @@
+/* ===== TIME MACHINE — year-page shared styles ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root{
+  --void:#0a0806;
+  --brass:#c9a24b;
+  --brass-dim:#8a6f34;
+  --text:#efe6d3;
+  --ember:#b34b28;
+  --panel:#16110c;
+  --line:rgba(201,162,75,0.28);
+}
+
+html,body{
+  margin:0; padding:0; width:100%; height:100%; overflow:hidden;
+  background:var(--void); color:var(--text);
+  font-family:'Crimson Text', serif;
+}
+
+.yy-root{position:fixed; inset:0; overflow:hidden;}
+
+.yy-stage{position:fixed; inset:0; background:#000;}
+.yy-stage canvas{display:block; width:100%; height:100%; touch-action:none;}
+
+/* ---- darkness overlay (initial 2s hold) ---- */
+.yy-darkness{
+  position:fixed; inset:0; background:#000; z-index:20;
+  opacity:0; pointer-events:none; transition:opacity .4s ease;
+}
+.yy-darkness.show{opacity:1; pointer-events:auto;}
+
+/* ---- blink eyelids ---- */
+.yy-eyelid{
+  position:fixed; left:0; right:0; height:52%; background:#000; z-index:21;
+  transition:transform .22s cubic-bezier(.6,0,.4,1);
+}
+.yy-eyelid-top{top:0; transform:translateY(-100%);}
+.yy-eyelid-bottom{bottom:0; transform:translateY(100%);}
+.yy-eyelid.closed.yy-eyelid-top{transform:translateY(0);}
+.yy-eyelid.closed.yy-eyelid-bottom{transform:translateY(0);}
+
+/* ---- scene label ---- */
+.yy-scene-label{
+  position:fixed; top:22px; left:50%; transform:translateX(-50%); z-index:15;
+  display:none; font-family:'Cinzel', serif; font-size:11px; letter-spacing:0.22em;
+  color:var(--brass); background:rgba(10,8,6,0.55); border:1px solid var(--line);
+  padding:6px 16px; border-radius:100px; backdrop-filter:blur(6px);
+}
+
+/* ---- return-to-time-machine button (only persistent control) ---- */
+.yy-return{
+  position:fixed; top:18px; left:18px; z-index:30;
+  appearance:none; cursor:pointer; font-family:'Crimson Text', serif; font-size:13.5px;
+  color:var(--text); background:rgba(10,8,6,0.55); border:1px solid var(--line);
+  padding:9px 16px; border-radius:100px; backdrop-filter:blur(6px);
+  transition:background .15s, border-color .15s;
+}
+.yy-return:hover{background:rgba(179,75,40,0.25); border-color:var(--ember);}
+
+/* ---- tap-to-unlock-sound gate (only appears if the browser blocks autoplay audio) ---- */
+.yy-tapgate{
+  position:fixed; inset:0; z-index:25; display:none; align-items:center; justify-content:center;
+  background:rgba(6,5,4,0.72); backdrop-filter:blur(3px);
+}
+.yy-tapgate.show{display:flex;}
+.yy-tapgate-card{
+  text-align:center; padding:28px 32px; border:1px solid var(--line); border-radius:14px;
+  background:var(--panel); max-width:300px;
+}
+.yy-tapgate-card p{font-family:'Cinzel',serif; font-size:15px; letter-spacing:0.08em; margin:0 0 16px; color:var(--brass);}
+.yy-tapgate-card button, .yy-missing-card button, .yy-aftermath-card button{
+  appearance:none; cursor:pointer; font-family:'Crimson Text', serif; font-size:14.5px;
+  color:#1a1408; background:var(--brass); border:none; padding:11px 22px; border-radius:100px;
+  transition:background .15s;
+}
+.yy-tapgate-card button:hover, .yy-missing-card button:hover, .yy-aftermath-card button:hover{background:#e0bb63;}
+
+/* ---- missing-video notice (dev/testing aid) ---- */
+.yy-missing{
+  position:fixed; inset:0; z-index:25; display:none; align-items:center; justify-content:center;
+  background:rgba(6,5,4,0.85);
+}
+.yy-missing.show{display:flex;}
+.yy-missing-card{
+  text-align:center; padding:26px 30px; border:1px dashed var(--ember); border-radius:14px;
+  background:var(--panel); max-width:340px;
+}
+.yy-missing-card p{font-size:14px; color:#e8c9b6; margin:0 0 16px; word-break:break-all;}
+
+/* ---- MCQ overlay ---- */
+.yy-mcq{
+  position:fixed; left:0; right:0; bottom:0; z-index:18;
+  display:none; flex-direction:column; gap:12px; align-items:center;
+  padding:22px 18px 34px; background:linear-gradient(0deg, rgba(6,5,4,0.92) 30%, rgba(6,5,4,0.55) 75%, transparent 100%);
+}
+.yy-mcq.show{display:flex;}
+.yy-mcq-btn{
+  appearance:none; cursor:pointer; text-align:left; width:100%; max-width:560px;
+  font-family:'Crimson Text', serif; font-size:16.5px; line-height:1.4; color:var(--text);
+  background:rgba(22,17,12,0.85); border:1px solid var(--line); border-radius:12px;
+  padding:14px 18px; transition:border-color .15s, background .15s, transform .15s;
+}
+.yy-mcq-btn:hover{border-color:var(--brass); background:rgba(40,30,18,0.9); transform:translateY(-1px);}
+
+/* ---- aftermath screen ---- */
+.yy-aftermath{
+  position:fixed; inset:0; z-index:22; display:none; align-items:center; justify-content:center;
+  background:radial-gradient(ellipse at 50% 40%, #201409 0%, #0a0806 75%); padding:32px;
+}
+.yy-aftermath.show{display:flex;}
+.yy-aftermath-card{max-width:640px; text-align:center;}
+.yy-aftermath-card h2{
+  font-family:'Cinzel', serif; font-weight:700; letter-spacing:0.06em; color:var(--brass);
+  font-size:26px; margin:0 0 18px;
+}
+.yy-aftermath-card p{font-size:18px; line-height:1.7; color:var(--text); margin:0 0 26px; font-style:italic;}
+
+@media (max-width:560px){
+  .yy-mcq-btn{font-size:15px;}
+  .yy-aftermath-card h2{font-size:21px;}
+  .yy-aftermath-card p{font-size:16px;}
+}
